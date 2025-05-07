@@ -2,15 +2,23 @@
 
 {% block content %}
   <h1>Book List</h1>
-  <a href="{% url 'book_create' %}" >Create a new book</a>
+  {% if perms.catalog.can_mark_returned %}
+    <a href="{% url 'book_create' %}" class="btn btn-primary">Create a new book</a>
+  {% endif %}
   {% if book_list %}
   <ul>
     {% for book in book_list %}
-      <li>
-        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
-        <a href="{% url 'book_update' book.id %}">Update</a>
-        <a href="{% url 'book_delete' book.id %}">Delete</a>
-      </li>
+    <li>
+      <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{ book.author }})
+      {% if perms.catalog.can_mark_returned %}
+        <a href="{% url 'book_update' book.id %}" title="Editar" class="ml-2">
+          <i class="fas fa-pen"></i>
+        </a>
+        <a href="{% url 'book_delete' book.id %}" title="Excluir" class="ml-2">
+          <i class="fas fa-times"></i>
+        </a>      
+      {% endif %}
+    </li>
     {% endfor %}
   </ul>
   {% else %}
