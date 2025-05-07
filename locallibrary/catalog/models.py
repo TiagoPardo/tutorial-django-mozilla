@@ -85,6 +85,7 @@ class Author(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+        
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
